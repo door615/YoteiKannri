@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">YoteiKannri</string>
+
+    <string name="text1">メニュー画面</string>
+    <string name="text2">宿題を入力</string>
+    <string name="text3">宿題を確認</string>
+    <string name="CalendarText">宿題の日付を入力</string>
+</resources>
