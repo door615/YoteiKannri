@@ -29,10 +29,11 @@ public class KakuninActivity extends AppCompatActivity {
         Button button = findViewById(R.id.buttonReturn);
         Button buttonSecond = findViewById(R.id.deleteButton);
 
+
         if (addData != null) {
-            new DataStoreAsyncTask(db, kakunin, listView, addData, 0).execute();
+            new databaseExecutor(db, kakunin, listView, addData, 0).Execute();
         }else {
-            new DataStoreAsyncTask(db, kakunin, listView, null, 0).execute();
+            new databaseExecutor(db, kakunin, listView, null, 0).Execute();
         }
 
         button.setOnClickListener(view -> {
@@ -42,7 +43,7 @@ public class KakuninActivity extends AppCompatActivity {
         });
 
         buttonSecond.setOnClickListener(v ->{
-            new DataStoreAsyncTask(db, kakunin, listView, "削除", 0).execute();
+            new databaseExecutor(db, kakunin, listView, "削除", 0).Execute();
         });
 
         listView.setDismissCallback((listview, position) -> {
@@ -60,6 +61,31 @@ public class KakuninActivity extends AppCompatActivity {
         listView.enableSwipeToDismiss();
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private static class DataStoreAsyncTask extends AsyncTask<Void, Void, Integer> {
         private final String addData;
