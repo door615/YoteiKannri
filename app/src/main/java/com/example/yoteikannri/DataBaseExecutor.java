@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.timroes.android.listview.EnhancedListView;
 
-public class databaseExecutor {
+public class DataBaseExecutor {
     private final String addData;
     private AppDatabase db;
     private List<AccessTime> atList;
@@ -24,7 +24,7 @@ public class databaseExecutor {
 
 
 
-    public databaseExecutor(AppDatabase db, Activity activity, EnhancedListView list, String addData, int position) {
+    public DataBaseExecutor(AppDatabase db, Activity activity, EnhancedListView list, String addData, int position) {
         this.db = db;
         kakunin = activity;
         this.addData = addData;
@@ -32,7 +32,7 @@ public class databaseExecutor {
         this.position = position;
     }
 
-    public void Execute() {
+    public void execute() {
         Runnable dataStore = () -> {
             AccessTimeDao accessTimeDao = db.accessTimeDao();
 
