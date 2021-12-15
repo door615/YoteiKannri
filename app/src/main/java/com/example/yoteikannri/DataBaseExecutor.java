@@ -23,7 +23,6 @@ public class DataBaseExecutor {
     private final int position;
 
 
-
     public DataBaseExecutor(AppDatabase db, Activity activity, EnhancedListView list, String addData, int position) {
         this.db = db;
         kakunin = activity;
@@ -35,7 +34,7 @@ public class DataBaseExecutor {
 
     public void execute() {
 
-        Runnable dataStore = () -> {
+        Runnable dataSaveAndDeleteAndMakeList = () -> {
             AccessTimeDao accessTimeDao = db.accessTimeDao();
             if (addData != null && !addData.equals("削除")) {
                 accessTimeDao.insert(new AccessTime(addData));
@@ -70,7 +69,7 @@ public class DataBaseExecutor {
 
         ExecutorService executor = Executors.newWorkStealingPool(2);
         try {
-            executor.execute(dataStore);
+            executor.execute(dataSaveAndDeleteAndMakeList);
             executor.execute(recyclerViewAdapt);
         } finally {
             executor.shutdown();
