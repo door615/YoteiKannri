@@ -21,7 +21,6 @@ public class KakuninActivity extends AppCompatActivity {
         EnhancedListView listView = (EnhancedListView) findViewById(R.id.listView);
         Activity kakunin = KakuninActivity;
         Button button = findViewById(R.id.buttonReturn);
-        Button buttonSecond = findViewById(R.id.deleteButton);
 
 
         if (addData != null) {
@@ -36,9 +35,8 @@ public class KakuninActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        buttonSecond.setOnClickListener(v -> new DataBaseExecutor(db, kakunin, listView, "削除", 0).execute());
 
-        listView.setDismissCallback((listview, position) -> {
+      listView.setDismissCallback((listview, position) -> {
 
 
             /// 消す処理
