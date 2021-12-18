@@ -16,10 +16,10 @@ public class DataBaseExecutor {
     private final String addData;
     private final AppDatabase db;
     private List<AccessTime> atList;
-    private final List finalList = new ArrayList();
+    private final List<String> finalList = new ArrayList<>();
     private final EnhancedListView listView;
     private final Activity kakunin;
-    private ArrayAdapter adapter;
+    private ArrayAdapter<String> adapter;
     private final int position;
 
 
@@ -34,7 +34,7 @@ public class DataBaseExecutor {
 
     public void execute() {
 
-        Runnable dataSaveAndDeleteAndMakeList = () -> {
+        Runnable dataSaveAndDataDeleteAndMakeList = () -> {
             AccessTimeDao accessTimeDao = db.accessTimeDao();
             if (addData != null && !addData.equals("削除")) {
                 accessTimeDao.insert(new AccessTime(addData));
@@ -50,7 +50,6 @@ public class DataBaseExecutor {
                 for (AccessTime at : atList) {
                     finalList.add(at.getAccessTime());
                 }
-                atList.remove(position);
                 finalList.remove(position);
             }else {
                 for (AccessTime at : atList) {
@@ -69,7 +68,7 @@ public class DataBaseExecutor {
 
         ExecutorService executor = Executors.newWorkStealingPool(2);
         try {
-            executor.execute(dataSaveAndDeleteAndMakeList);
+            executor.execute(dataSaveAndDataDeleteAndMakeList);
             executor.execute(recyclerViewAdapt);
         } finally {
             executor.shutdown();

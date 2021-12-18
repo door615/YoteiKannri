@@ -18,7 +18,4 @@ public interface AccessTimeDao {
     @Delete
     void delete(AccessTime accessTime);
 
-
-
-
 }
