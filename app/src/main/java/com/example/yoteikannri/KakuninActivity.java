@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import de.timroes.android.listview.EnhancedListView;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class KakuninActivity extends AppCompatActivity {
     private final Activity KakuninActivity = this;
@@ -18,7 +17,7 @@ public class KakuninActivity extends AppCompatActivity {
         setContentView(R.layout.activity_kakunin);
         AppDatabase db = AppDatabaseSingleton.getInstance(getApplicationContext());
         String addData = getIntent().getStringExtra("data");
-        EnhancedListView listView = (EnhancedListView) findViewById(R.id.listView);
+        RecyclerView listView = findViewById(R.id.recyclerView);
         Activity kakunin = KakuninActivity;
         Button button = findViewById(R.id.buttonReturn);
 
@@ -35,20 +34,6 @@ public class KakuninActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-      listView.setDismissCallback((listview, position) -> {
-
-
-            /// 消す処理
-            new DataBaseExecutor(db, kakunin, listView, "削除", position).execute();
-            return new EnhancedListView.Undoable() {
-                @Override
-                public void undo() {
-                    // 元に戻す処理
-                }
-            };
-        });
-        listView.enableSwipeToDismiss();
 
     }
 

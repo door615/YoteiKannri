@@ -1,7 +1,9 @@
 package com.example.yoteikannri;
 
 import android.app.Activity;
-import android.widget.ArrayAdapter;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +12,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import de.timroes.android.listview.EnhancedListView;
-
 public class DataBaseExecutor {
     private final String addData;
     private final AppDatabase db;
     private List<AccessTime> atList;
     private final List<String> finalList = new ArrayList<>();
-    private final EnhancedListView listView;
+    private final RecyclerView listView;
     private final Activity kakunin;
-    private ArrayAdapter<String> adapter;
+    private CustomAdapter adapter;
     private final int position;
 
 
-    public DataBaseExecutor(AppDatabase db, Activity activity, EnhancedListView list, String addData, int position) {
+    public DataBaseExecutor(AppDatabase db, Activity activity, RecyclerView list, String addData, int position) {
         this.db = db;
         kakunin = activity;
         this.addData = addData;
@@ -61,8 +61,13 @@ public class DataBaseExecutor {
         };
 
         Runnable recyclerViewAdapt = () -> {
+            listView.setHasFixedSize(true);
 
-            adapter = new ArrayAdapter<>(kakunin, android.R.layout.simple_list_item_1, finalList);
+            // use a linear layout manager
+            RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(kakunin.getApplicationContext());
+
+            listView.setLayoutManager(rLayoutManager);
+            adapter = new CustomAdapter(finalList);
             listView.setAdapter(adapter);
         };
 
