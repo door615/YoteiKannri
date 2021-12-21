@@ -1,6 +1,7 @@
 package com.example.yoteikannri;
 
 import android.app.Activity;
+import android.os.Handler;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.LogRecord;
 
 public class DataBaseExecutor {
     private final String addData;
@@ -32,7 +34,8 @@ public class DataBaseExecutor {
 
     }
 
-    public void execute() {
+    public void myexecute() {
+        Handler handler = new Handler();
 
         Runnable dataSaveAndDataDeleteAndMakeList = () -> {
             AccessTimeDao accessTimeDao = db.accessTimeDao();
@@ -62,10 +65,7 @@ public class DataBaseExecutor {
 
         Runnable recyclerViewAdapt = () -> {
             listView.setHasFixedSize(true);
-
-            // use a linear layout manager
             RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(kakunin.getApplicationContext());
-
             listView.setLayoutManager(rLayoutManager);
             adapter = new CustomAdapter(finalList);
             listView.setAdapter(adapter);
@@ -74,7 +74,7 @@ public class DataBaseExecutor {
         ExecutorService executor = Executors.newWorkStealingPool(2);
         try {
             executor.execute(dataSaveAndDataDeleteAndMakeList);
-            executor.execute(recyclerViewAdapt);
+            handler.post(recyclerViewAdapt);
         } finally {
             executor.shutdown();
             try {
