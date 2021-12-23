@@ -17,12 +17,16 @@ public class KakuninActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_kakunin);
+        //データベースのインスタンスを作る
         AppDatabase db = AppDatabaseSingleton.getInstance(getApplicationContext());
+        //NyuryokuActivityからデータを取得する
         String addData = getIntent().getStringExtra("data");
         RecyclerView listView = findViewById(R.id.recyclerView);
         Activity kakunin = KakuninActivity;
+        //ホーム画面に戻るボタン
         Button button = findViewById(R.id.buttonReturn);
 
+        //RecyclerViewにスワイプ削除の機能を追加する
         ItemTouchHelper touchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(ItemTouchHelper.ACTION_STATE_IDLE,
                         ItemTouchHelper.RIGHT) {
@@ -33,10 +37,14 @@ public class KakuninActivity extends AppCompatActivity {
                         return true;
                     }
 
+                    //スワイプしたときにRecyclerViewと紐づいているリストとデータベースからデータを削除する
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                         int position = viewHolder.getAbsoluteAdapterPosition();
-                        new DataBaseExecutor(db, kakunin, listView, "削除", position ).myexecute();
+                        //削除する処理
+                        //DataBeseExecutorは、RecyclerViewを作りつつ、
+                        //RecyclerViewと紐づいているリストとデータベースへのデータの操作をする
+                        new DataBaseExecutor(db, kakunin, listView, null, position, true).myExecute();
                     }
                 });
 
@@ -44,13 +52,18 @@ public class KakuninActivity extends AppCompatActivity {
 
 
         if (addData != null) {
-            new DataBaseExecutor(db, kakunin, listView, addData, 0).myexecute();
-        }else {
-            new DataBaseExecutor(db, kakunin, listView, null, 0).myexecute();
+            //NyuryokuActivityから画面遷移したときは、もらったaddDataを
+            // RecyclerViewと紐づいているリストとデータベースに追加する
+            new DataBaseExecutor(db, kakunin, listView, addData, 0, false).myExecute();
+        } else {
+            //ホーム画面から画面遷移したときは、追加はしない
+            new DataBaseExecutor(db, kakunin, listView, null, 0, false).myExecute();
         }
 
+        //ホーム画面に戻る処理
         button.setOnClickListener(view -> {
             Intent intent = new Intent(getApplication(), MainActivity.class);
+            //戻るボタンで戻りすぎないように、アクティビティのフラグを消す
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });

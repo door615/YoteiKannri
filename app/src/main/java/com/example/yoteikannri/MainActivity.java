@@ -15,11 +15,14 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonNyuuryoku = findViewById(R.id.buttonNyuuryoku);
         Button buttonKakunin = findViewById(R.id.buttonKakunin);
+
+        //宿題の入力画面(NyuuryokuActivity)への画面遷移
         buttonNyuuryoku.setOnClickListener(view -> {
             Intent intent = new Intent(getApplication(), NyuuryokuActivity.class);
             startActivity(intent);
         });
 
+        //宿題の確認画面(KakuninActivity)への画面遷移
         buttonKakunin.setOnClickListener(view -> {
             Intent intent2 = new Intent(getApplication(), KakuninActivity.class);
             startActivity(intent2);

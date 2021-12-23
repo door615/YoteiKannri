@@ -12,8 +12,10 @@ import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
-    private final List<String> localDataSet;
+    //表示するリスト
+    private final List<Homework> localDataSet;
 
+    //text_row_item.xmlのtextViewを取得
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
 
@@ -27,10 +29,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    public CustomAdapter(List<String> dataSet) {
+    //コンストラクタ
+    public CustomAdapter(List<Homework> dataSet) {
         localDataSet = dataSet;
     }
 
+    //text_row_item.xmlを使ってViewHolderを作る
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -41,11 +45,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    //ViewHolderにリストのテキストを与える
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.getTextView().setText(localDataSet.get(position));
+        viewHolder.getTextView().setText(localDataSet.get(position).getHomework());
     }
 
+    //リストの要素数を返す
     @Override
     public int getItemCount() {
         return localDataSet.size();

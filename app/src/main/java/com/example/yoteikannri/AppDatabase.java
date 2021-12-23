@@ -2,8 +2,21 @@ package com.example.yoteikannri;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {AccessTime.class}, version = 1, exportSchema = false)
+@Database(entities = {Homework.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract AccessTimeDao accessTimeDao();
+    public abstract HomeworkDao homeworkDao();
+
+    //データベースとカラムの名前を変更したのでマイグレーションをする
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `Homework` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`homework_day` TEXT)");
+            database.execSQL("INSERT INTO Homework SELECT*FROM AccessTime");
+            database.execSQL("DROP TABLE Accesstime");
+        }
+    };
 }
