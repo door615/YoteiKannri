@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import de.timroes.android.listview.EnhancedListView;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class KakuninActivity extends AppCompatActivity {
     private final Activity KakuninActivity = this;
@@ -16,39 +17,57 @@ public class KakuninActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_kakunin);
+        //データベースのインスタンスを作る
         AppDatabase db = AppDatabaseSingleton.getInstance(getApplicationContext());
+        //NyuryokuActivityからデータを取得する
         String addData = getIntent().getStringExtra("data");
-        EnhancedListView listView = (EnhancedListView) findViewById(R.id.listView);
+        RecyclerView listView = findViewById(R.id.recyclerView);
         Activity kakunin = KakuninActivity;
+        //ホーム画面に戻るボタン
         Button button = findViewById(R.id.buttonReturn);
+
+        //RecyclerViewにスワイプ削除の機能を追加する
+        ItemTouchHelper touchHelper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.ACTION_STATE_IDLE,
+                        ItemTouchHelper.RIGHT) {
+
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView,
+                                          @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                        return true;
+                    }
+
+                    //スワイプしたときにRecyclerViewと紐づいているリストとデータベースからデータを削除する
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAbsoluteAdapterPosition();
+                        //削除する処理
+                        //DataBeseExecutorは、RecyclerViewを作りつつ、
+                        //RecyclerViewと紐づいているリストとデータベースへのデータの操作をする
+                        new DataBaseExecutor(db, kakunin, listView, null, position, true).myExecute();
+                    }
+                });
+
+        touchHelper.attachToRecyclerView(listView);
 
 
         if (addData != null) {
-            new DataBaseExecutor(db, kakunin, listView, addData, 0).execute();
-        }else {
-            new DataBaseExecutor(db, kakunin, listView, null, 0).execute();
+            //NyuryokuActivityから画面遷移したときは、もらったaddDataを
+            // RecyclerViewと紐づいているリストとデータベースに追加する
+            new DataBaseExecutor(db, kakunin, listView, addData, 0, false).myExecute();
+        } else {
+            //ホーム画面から画面遷移したときは、追加はしない
+            new DataBaseExecutor(db, kakunin, listView, null, 0, false).myExecute();
         }
 
+        //ホーム画面に戻る処理
         button.setOnClickListener(view -> {
             Intent intent = new Intent(getApplication(), MainActivity.class);
+            //戻るボタンで戻りすぎないように、アクティビティのフラグを消す
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
 
-
-      listView.setDismissCallback((listview, position) -> {
-
-
-            /// 消す処理
-            new DataBaseExecutor(db, kakunin, listView, "削除", position).execute();
-            return new EnhancedListView.Undoable() {
-                @Override
-                public void undo() {
-                    // 元に戻す処理
-                }
-            };
-        });
-        listView.enableSwipeToDismiss();
 
     }
 

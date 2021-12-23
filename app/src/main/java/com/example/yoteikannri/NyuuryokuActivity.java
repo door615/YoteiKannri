@@ -15,6 +15,7 @@ public class NyuuryokuActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_nyuuryoku_calendar);
 
+        //最初の画面で。カレンダーの日付をタップし、それの日付を画面2に渡す
         CalendarView calendar = findViewById(R.id.calendarView);
         calendar.setOnDateChangeListener(
                 (calendarView, year, month, date) -> {
@@ -25,16 +26,15 @@ public class NyuuryokuActivity extends AppCompatActivity {
     }
 
 
-        public void NyuuryokuActivityGamen2(String s) {
+    public void NyuuryokuActivityGamen2(String message) {
         setContentView(R.layout.activity_nyuuryoku_youbi);
 
-
-
+        //次の画面で、科目が行われる曜日をタップし、それと日付を画面3に渡す
         View.OnClickListener event = view -> {
             Button b = (Button) view;
             String youbi = b.getText().toString();
 
-            NyuuryokuActivityGamen3(youbi,s);
+            NyuuryokuActivityGamen3(youbi, message);
         };
 
         findViewById(R.id.buttonGetuyou).setOnClickListener(event);
@@ -44,10 +44,10 @@ public class NyuuryokuActivity extends AppCompatActivity {
         findViewById(R.id.buttonKinnyou).setOnClickListener(event);
         findViewById(R.id.buttonDoyou).setOnClickListener(event);
 
-        }
+    }
 
 
-    public void NyuuryokuActivityGamen3(String s, String m) {
+    public void NyuuryokuActivityGamen3(String youbi, String message) {
 
         setContentView(R.layout.activity_nyuuryoku_kamoku);
 
@@ -57,8 +57,9 @@ public class NyuuryokuActivity extends AppCompatActivity {
         Button b4 = findViewById(R.id.button4);
         Button b5 = findViewById(R.id.button5);
 
-
-        switch (s) {
+        //画面2でタップした曜日に応じて科目を表示する(自分用アプリだったので編集機能などは付けずに
+        // 直接テキストを書いてました)
+        switch (youbi) {
             case "月曜":
 
                 b1.setText("応用解析");
@@ -105,17 +106,19 @@ public class NyuuryokuActivity extends AppCompatActivity {
                 break;
         }
 
-
-
+        //科目をクリックしたら、日付を合わせて、データベースに記録するデータを作る処理を作る
         View.OnClickListener event = view -> {
             Button b = (Button) view;
-            String finalText = m + "  " + b.getText().toString();
+            //日付　科目という形になる
+            String finalText = message + "  " + b.getText().toString();
             Intent intent = new Intent(getApplication(), KakuninActivity.class);
+            //作ったデータを確認画面(KakuninActivity)に送る(確認画面でデータベースに記録したりする)
             intent.putExtra("data", finalText);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         };
 
+        //それぞれのボタンに、処理を実装する
         b1.setOnClickListener(event);
         b2.setOnClickListener(event);
         b3.setOnClickListener(event);
