@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="9dp"
-        android:layout_marginBottom="294dp"
+        android:layout_marginBottom="320dp"
         android:text="火曜"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,13 +43,24 @@
         android:id="@+id/buttonKinnyou"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="27dp"
         android:layout_marginEnd="9dp"
         android:text="金曜"
         android:textSize="34sp"
         app:layout_constraintEnd_toStartOf="@+id/buttonDoyou"
         app:layout_constraintStart_toEndOf="@+id/buttonMokuyou"
         app:layout_constraintTop_toBottomOf="@+id/buttonKayou" />
+
+    <Button
+        android:id="@+id/buttonKinnyou2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:text="テキスト"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDoyou" />
 
     <Button
         android:id="@+id/buttonMokuyou"
