@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,12 +38,17 @@ public class NyuuryokuActivity extends AppCompatActivity {
             NyuuryokuActivityGamen3(youbi, message);
         };
 
+        //この画面で「テキスト」と書かれたボタンを押したときの処理。テキスト入力画面に遷移する。
+        View.OnClickListener eventInput = view -> NyuuryokuActivityInputGamen(message);
+
         findViewById(R.id.buttonGetuyou).setOnClickListener(event);
         findViewById(R.id.buttonKayou).setOnClickListener(event);
         findViewById(R.id.buttonSuiyou).setOnClickListener(event);
         findViewById(R.id.buttonMokuyou).setOnClickListener(event);
         findViewById(R.id.buttonKinnyou).setOnClickListener(event);
         findViewById(R.id.buttonDoyou).setOnClickListener(event);
+        findViewById(R.id.buttonTouroku).setOnClickListener(eventInput);
+
 
     }
 
@@ -124,5 +130,27 @@ public class NyuuryokuActivity extends AppCompatActivity {
         b3.setOnClickListener(event);
         b4.setOnClickListener(event);
         b5.setOnClickListener(event);
+    }
+
+    //テキスト入力画面。入力したテキストと日付を書いたテキストをデータベースに保存する。
+    public void NyuuryokuActivityInputGamen(String message) {
+        setContentView(R.layout.activity_text_input);
+
+        Button buttonTouroku = findViewById(R.id.buttonTouroku);
+        EditText editText = findViewById(R.id.editText);
+
+        buttonTouroku.setOnClickListener(v -> {
+
+            //データベースに保存する文字列は「日付　入力したテキスト」のようになる。
+            String finalText = message + "  " + editText.getText().toString();
+
+            //入力アクティビティ画面3と同じように確認アクティビティに文字列を渡す。
+            Intent intent = new Intent(getApplication(), KakuninActivity.class);
+            //作ったデータを確認画面(KakuninActivity)に送る(確認画面でデータベースに記録したりする)
+            intent.putExtra("data", finalText);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
+
     }
 }

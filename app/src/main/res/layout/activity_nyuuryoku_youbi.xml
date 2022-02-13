@@ -17,7 +17,7 @@
         app:layout_constraintStart_toEndOf="@+id/buttonKinnyou" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="188dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonKayou" />
 
     <Button
-        android:id="@+id/buttonKinnyou2"
+        android:id="@+id/buttonTouroku"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
