@@ -9,12 +9,17 @@ public class Homework {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    //宿題の日時と科目を記録するデータのカラムを作る
+    //宿題の日付と科目を記録するデータのカラムを作る
     @ColumnInfo(name = "homework_day")
     private String homework;
 
-    public Homework(String homework) {
+    //宿題の日付を記録するカラム(日付順にソートするときに使用)
+    @ColumnInfo(defaultValue = "0")
+    private int date;
+
+    public Homework(String homework, int date) {
         this.homework = homework;
+        this.date = date;
     }
 
     public void setId(int id) {
@@ -32,6 +37,10 @@ public class Homework {
     public String getHomework() {
         return homework;
     }
+
+    public void setDate(int date) { this.date = date;}
+
+    public int getDate() { return date;}
 
 
 }

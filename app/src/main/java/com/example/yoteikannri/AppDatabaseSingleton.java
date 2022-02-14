@@ -1,6 +1,7 @@
 package com.example.yoteikannri;
 
 import static com.example.yoteikannri.AppDatabase.MIGRATION_1_2;
+import static com.example.yoteikannri.AppDatabase.MIGRATION_2_3;
 
 import android.content.Context;
 import androidx.room.Room;
@@ -18,6 +19,7 @@ public class AppDatabaseSingleton {
         instance = Room.databaseBuilder(context.getApplicationContext(),
                 AppDatabase.class, "database_name")
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
                 .build();
         return instance;
     }

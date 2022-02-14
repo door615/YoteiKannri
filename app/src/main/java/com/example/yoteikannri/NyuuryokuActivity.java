@@ -21,13 +21,13 @@ public class NyuuryokuActivity extends AppCompatActivity {
         calendar.setOnDateChangeListener(
                 (calendarView, year, month, date) -> {
                     String message = year + "/" + (month + 1) + "/" + date;
-                    NyuuryokuActivityGamen2(message);
+                    NyuuryokuActivityGamen2(message, date);
                 }
         );
     }
 
 
-    public void NyuuryokuActivityGamen2(String message) {
+    public void NyuuryokuActivityGamen2(String message, int date) {
         setContentView(R.layout.activity_nyuuryoku_youbi);
 
         //次の画面で、科目が行われる曜日をタップし、それと日付を画面3に渡す
@@ -35,11 +35,11 @@ public class NyuuryokuActivity extends AppCompatActivity {
             Button b = (Button) view;
             String youbi = b.getText().toString();
 
-            NyuuryokuActivityGamen3(youbi, message);
+            NyuuryokuActivityGamen3(youbi, message, date);
         };
 
         //この画面で「テキスト」と書かれたボタンを押したときの処理。テキスト入力画面に遷移する。
-        View.OnClickListener eventInput = view -> NyuuryokuActivityInputGamen(message);
+        View.OnClickListener eventInput = view -> NyuuryokuActivityInputGamen(message, date);
 
         findViewById(R.id.buttonGetuyou).setOnClickListener(event);
         findViewById(R.id.buttonKayou).setOnClickListener(event);
@@ -53,7 +53,7 @@ public class NyuuryokuActivity extends AppCompatActivity {
     }
 
 
-    public void NyuuryokuActivityGamen3(String youbi, String message) {
+    public void NyuuryokuActivityGamen3(String youbi, String message, int date) {
 
         setContentView(R.layout.activity_nyuuryoku_kamoku);
 
@@ -120,6 +120,7 @@ public class NyuuryokuActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplication(), KakuninActivity.class);
             //作ったデータを確認画面(KakuninActivity)に送る(確認画面でデータベースに記録したりする)
             intent.putExtra("data", finalText);
+            intent.putExtra("data2", date);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         };
@@ -133,7 +134,7 @@ public class NyuuryokuActivity extends AppCompatActivity {
     }
 
     //テキスト入力画面。入力したテキストと日付を書いたテキストをデータベースに保存する。
-    public void NyuuryokuActivityInputGamen(String message) {
+    public void NyuuryokuActivityInputGamen(String message, int date) {
         setContentView(R.layout.activity_text_input);
 
         Button buttonTouroku = findViewById(R.id.buttonTouroku);
@@ -148,6 +149,7 @@ public class NyuuryokuActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplication(), KakuninActivity.class);
             //作ったデータを確認画面(KakuninActivity)に送る(確認画面でデータベースに記録したりする)
             intent.putExtra("data", finalText);
+            intent.putExtra("data2", date);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
