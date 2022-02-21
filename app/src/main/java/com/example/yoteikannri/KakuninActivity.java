@@ -20,7 +20,8 @@ public class KakuninActivity extends AppCompatActivity {
         //データベースのインスタンスを作る
         AppDatabase db = AppDatabaseSingleton.getInstance(getApplicationContext());
         //NyuryokuActivityからデータを取得する
-        String addData = getIntent().getStringExtra("data");
+        String addHomework = getIntent().getStringExtra("data");
+        int addDate = getIntent().getIntExtra("data2", 0);
         RecyclerView listView = findViewById(R.id.recyclerView);
         Activity kakunin = KakuninActivity;
         //ホーム画面に戻るボタン
@@ -44,20 +45,20 @@ public class KakuninActivity extends AppCompatActivity {
                         //削除する処理
                         //DataBeseExecutorは、RecyclerViewを作りつつ、
                         //RecyclerViewと紐づいているリストとデータベースへのデータの操作をする
-                        new DataBaseExecutor(db, kakunin, listView, null, position, true).myExecute();
+                        new DataBaseExecutor(db, kakunin, listView, null, 0, position, true).myExecute();
                     }
                 });
 
         touchHelper.attachToRecyclerView(listView);
 
 
-        if (addData != null) {
+        if (addHomework != null && addDate != 0 ) {
             //NyuryokuActivityから画面遷移したときは、もらったaddDataを
             // RecyclerViewと紐づいているリストとデータベースに追加する
-            new DataBaseExecutor(db, kakunin, listView, addData, 0, false).myExecute();
+            new DataBaseExecutor(db, kakunin, listView, addHomework, addDate, 0, false).myExecute();
         } else {
             //ホーム画面から画面遷移したときは、追加はしない
-            new DataBaseExecutor(db, kakunin, listView, null, 0, false).myExecute();
+            new DataBaseExecutor(db, kakunin, listView, null,0, 0, false).myExecute();
         }
 
         //ホーム画面に戻る処理

@@ -11,7 +11,7 @@ import java.util.List;
 public interface HomeworkDao {
 
     //宿題の日時と科目のデータをリストに全て入れる
-    @Query("SELECT * FROM Homework")
+    @Query("SELECT * FROM Homework ORDER BY date ASC")
     List<Homework> getAll();
 
     //データベースに宿題の日時と科目のデータを追加する

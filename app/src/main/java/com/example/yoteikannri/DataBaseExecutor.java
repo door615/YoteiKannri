@@ -13,7 +13,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class DataBaseExecutor {
-    private final String addData;
+    private final String addHomework;
+    private final int addDate;
     private final AppDatabase db;
     private final RecyclerView recyclerView;
     private final Activity kakunin;
@@ -23,10 +24,11 @@ public class DataBaseExecutor {
     private final boolean isDelete;
 
     //コンストラクタ
-    public DataBaseExecutor(AppDatabase db, Activity activity, RecyclerView list, String addData, int position, boolean isDelete) {
+    public DataBaseExecutor(AppDatabase db, Activity activity, RecyclerView list, String addHomework, int addDate, int position, boolean isDelete) {
         this.db = db;
         kakunin = activity;
-        this.addData = addData;
+        this.addHomework = addHomework;
+        this.addDate = addDate;
         this.recyclerView = list;
         this.position = position;
         this.isDelete = isDelete;
@@ -40,8 +42,8 @@ public class DataBaseExecutor {
         //データベースへのデータの追加と削除、リサイクラ―ビューに使うリストを作る
         Runnable dataSaveAndDataDeleteAndMakeList = () -> {
             HomeworkDao homeworkDao = db.homeworkDao();
-            if (addData != null) {
-                homeworkDao.insert(new Homework(addData));
+            if (addHomework != null) {
+                homeworkDao.insert(new Homework(addHomework, addDate));
             }
 
             homeworkList = homeworkDao.getAll();
