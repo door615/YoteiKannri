@@ -4,10 +4,10 @@
 宿題を登録することができます。自分用に開発したアプリなので、デザインが初期のものだったり、宿題の科目の編集機能が無かったりします。
 
 # 使用技術
-Android Studio Arctic Fox | 2020.3.1 Patch4
-Room ver2.4.1
-Git  ver2.33.0.windows.2
-Github
+Android Studio Arctic Fox | 2020.3.1 Patch4  
+Room ver2.4.1  
+Git  ver2.33.0.windows.2  
+Github  
 
 # 主な使い方
 ホーム画面はこのようになっています。
@@ -28,8 +28,8 @@ Github
 
 
 # 主な機能
-Recycerviewを用いたスワイプ削除
-Roomを用いたデータベース
-日付順に並べる機能
+Recycerviewを用いたスワイプ削除  
+Roomを用いたデータベース  
+日付順に並べる機能  
 
 
